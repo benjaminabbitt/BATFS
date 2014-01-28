@@ -1,3 +1,4 @@
+#Introduction
 Traditional file systems store data in a simple tree structure which is largely un-
 changed since its creation in the 1970s. While this system is obviously adequate
 for the majority of users, evolved file systems, those that are not rigidly pre-
@@ -25,7 +26,8 @@ library of files and store that meta-data in a searchable and browseable databas
 
 
 
-File System Query Language (FSQL)
+##File System Query Language (FSQL)
+
 To solve these problems, I propose the creation of a new method of file system
 organization. Files will be stored using a set of tags and a file name, rather than a
 path and their file name. The tags will appears as directories, but not bounded by
@@ -37,40 +39,45 @@ operations on sets of descriptors.
 
 
 
-FSQL Description
+###FSQL Description
 
 In evaluating FSQL Queries, all tags must first be converted into a set of files
 associated with that tag. These sets are then evaluated.
+
 In FSQL, expressions are evaluated in a postfix manner. A/B/AND is evalu-
 ated as A∩B.
+
 All operators are binary and evaluate the two sets of files immediately preced-
 ing it.
+
 In the special empty set case, all tags are returned and no files are returned.
 
 
-Application to the File System
+###Application to the File System
 
 FSQL Grammar is designed to be compatible with Linux/Unix file system gram-
 mar. Tags appear as directories (permission changes are ignored), and files are
 displayed normally.
 
 
-Name Collision Special Case
+###Name Collision Special Case
 
 In the event that two files are named with the same file name, and the set of tags
 associated with B is ⊂ the set of tags associated with A, and a FSQL expression is
 4then devised such that expr. ⊆ B ⊂ A, a name collision will occur.
+
 To resolve the name collision, I borrow an idea from Microsoft’s name colli-
 sion avoidance routines in Windows, I add a parentheses and a number to the end
 of the file name. In a deviation from Microsoft’s application, I do not assign the
 lowest number that would not cause a collision, but instead assign the numerical
 key assigned by the database to each file. This guarantees that the file name will
 be unique, and provides consistency across the file system.
+
 This file name (key) does not effect the name of the file within the storage file
 system, and is just used to display and identify files within the query results.
 
 
-Recursion Special Case
+###Recursion Special Case
 
 Recursive deletion operations on this file system will result in the destruction of
 the entire file system. It is for this reason that it is suggested that no recursive
@@ -87,25 +94,28 @@ tags file is also placed within the Trash tag.
 When a file with only the Trash tag is deleted, the file is unlinked from the
 storage file system.
 
-Orphan Files
+###Orphan Files
 
 Files which have all associated tags removed are placed in a reserved Orphan tag.
 This tag is removed automatically when a second tag is associated with the file.
 
 
-#Examples
+##Examples
 
 All examples, except when specified otherwise, are executed in Query Mode.
 Given the set of picture files:
-File Name Tag     Tag
-A.jpg     Alice
-B.jpg     Bob
-C.jpg     Charlie
-AB.jpg    Alice   Bob
+  File Name Tag     Tag
+  A.jpg     Alice
+  B.jpg     Bob
+  C.jpg     Charlie
+  AB.jpg    Alice   Bob
 
 For example, this query will return everything with the tag Alice:
+  
   $ls /Alice/
+
 Yields the following results:
+
   a.jpg
   ab.jpg
   AND/
@@ -117,9 +127,11 @@ Yields the following results:
 #####AND Support
 
 Given the same set of files, the following is a query that will return everything with both the Alice and Bob tags.
+
   $ls /Alice/Bob/AND/
 
 Yields:
+
   Alice/
   ab.jpg
   AND/
