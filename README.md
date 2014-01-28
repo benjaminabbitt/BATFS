@@ -104,18 +104,22 @@ This tag is removed automatically when a second tag is associated with the file.
 
 All examples, except when specified otherwise, are executed in Query Mode.
 Given the set of picture files:
+```
   File Name Tag     Tag
   A.jpg     Alice
   B.jpg     Bob
   C.jpg     Charlie
   AB.jpg    Alice   Bob
+```
 
 For example, this query will return everything with the tag Alice:
   
+```
   $ls /Alice/
+```
 
 Yields the following results:
-
+```
   a.jpg
   ab.jpg
   AND/
@@ -123,15 +127,15 @@ Yields the following results:
   Charlie/
   OR/
   NOT/
-
+```
 #####AND Support
 
 Given the same set of files, the following is a query that will return everything with both the Alice and Bob tags.
-
+```
   $ls /Alice/Bob/AND/
-
+```
 Yields:
-
+```
   Alice/
   ab.jpg
   AND/
@@ -139,24 +143,24 @@ Yields:
   Charlie/
   OR/
   NOT/
-
+```
 For the sake of brevity, AND operators can be omitted.
-
+```
   $ls /Alice/Bob/
-
+```
 is equivalent to
-
+```
   $ls /Alice/Bob/AND/
-
+```
 #####OR Support
 
 Below is a query that will return everything that has either the Alice or the Bob
 descriptors.
-
+```
   $ls /Alice/Bob/OR/
-
+```
 Yields:
-
+```
   a.jpg
   ab.jpg
   Alice/
@@ -166,15 +170,15 @@ Yields:
   Charlie/
   OR/
   NOT/
-
+```
 #####NOT Support
 
 NOT is also supported. Below is a query that will return everything with the tag Alice that does not also contain the tag Bob.
-
+```
   $ls /Alice/Bob/NOT/
-
+```
 Yields
-  
+```
   a.jpg
   Alice/
   AND/
@@ -182,20 +186,20 @@ Yields
   Charlie/
   OR/
   NOT/
-
+```
 ####Tag Assignment
 
 Files can be added to the system simply by moving or copying them into a path
 corresponding to the desired keywords. To copy and properly classify ab.jpg
 with its appropriate tags Alice and Bob, one would simply copy it into the Alice
 and Bob path, like so:
-
+```
   $cp /previous/path/ab.jpg Alice/Bob/ab.jpg
-
+```
 OR and NOT operations will have their data sets discarded during tag assign-
 ment operations. For example, the command:
-
+```
   $cp /previous/path/foo.file /Alice/Bob/or/Charlie/Mike
-
+```
 Will result in the tags Charlie and Mike being assigned to foo.file. Alice
 and Bob are both indefinite and are therefore discarded.
